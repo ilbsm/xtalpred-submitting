@@ -32,8 +32,8 @@ def splitting_fasta(file_name):
 # the function automatically submits data on xtalpred. The results will be send on given mail, when the job is finished
 def submit_to_xtalpred(e_mail, fasta_file):
     number_of_files = splitting_fasta(fasta_file)
+    driver = webdriver.Firefox(executable_path='geckodriver')
     for i in range(0, number_of_files + 1):
-        driver = webdriver.Firefox(executable_path='geckodriver')
         driver.get("https://xtalpred.godziklab.org/XtalPred-cgi/xtal.pl")
         driver.find_element(By.NAME, "mail").send_keys(e_mail)
         with open(f"{i}_{fasta_file}") as file:
