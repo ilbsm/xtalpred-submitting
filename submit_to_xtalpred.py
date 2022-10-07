@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import argparse
 
 '''Following functions required installing geckodriver.
 You can do it from this repo: https://github.com/mozilla/geckodriver/releases'''
@@ -19,8 +20,7 @@ def splitting_fasta(file_name):
                         i += 1
                         pom = 0
                         with open(f"{i}_{file_name}", "a") as fasta_file:
-                            id = line[:line.find("_")]
-                            fasta_file.write(f"{id}\n")
+                            fasta_file.write(line)
                     else:
                         id = line[:line.find("_")]
                         fasta_file.write(f"{id}\n")
@@ -44,3 +44,10 @@ def submit_to_xtalpred(e_mail, fasta_file):
         driver.find_element(By.NAME, "Submit").click()
 
 
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="Enter the address to which you want to receive the results and the path to the fasta file")
+    parser.add_argument('mail', type=str, help="your email")
+    parser.add_argument('path', type=str, help="path to fasta file")
+    args = parser.parse_args()
+    submit_to_xtalpred(args.mail, args.path)
